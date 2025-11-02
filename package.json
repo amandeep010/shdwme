@@ -1,0 +1,45 @@
+{
+  "name": "shubham",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "prepare": "husky",
+    "prisma:format": "npx prisma format",
+    "prisma:generate": "npx prisma generate",
+    "prisma:migrate:dev": "npx prisma migrate dev",
+    "prisma:migrate:deploy": "npx prisma migrate deploy",
+    "prettier:list": "npx prettier . --check",
+    "prettier:fix": "npx prettier . --write",
+    "format": "yarn prettier:fix && npm lint"
+  },
+   "engines": {
+    "node": ">=24"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm prettier:list"
+    }
+  }, 
+  "dependencies": {
+    "@prisma/client": "^6.18.0",
+    "next": "16.0.1",
+    "prisma": "^6.18.0",
+    "react": "19.2.0",
+    "react-dom": "19.2.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.0.1",
+    "prettier": "3.6.2",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}

@@ -1,0 +1,22 @@
+# Ignore artifacts:
+build
+coverage
+.prettierrc.js
+.gitignore
+.prettierignore
+package-lock.json
+package.json
+public/
+schemas/
+views/
+tsconfig.json
+.env
+chroma.log
+prisma/
+.husky/
+docker-compose.yml
+Dockerfile
+collections/
+.env.sample
+yarn.lock
+.history
