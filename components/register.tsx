@@ -10,28 +10,37 @@ import {
 	FieldSeparator
 } from "@/components/ui/field"
 import {Input} from "@/components/ui/input"
-import {useEffect, useState} from "react"
+import {useState} from "react"
 import {useRouter} from "next/navigation"
-import { EyeClosed, Eye } from 'lucide-react';
-import { Spinner } from "./ui/shadcn-io/spinner"
-import { toast } from "sonner"
-import { loginUser } from "@/lib/api/auth.service"
+import {register} from "@/lib/api/auth.service"
+import {toast} from "sonner"
+import {Spinner} from "./ui/shadcn-io/spinner"
 
+type registerForm = {
+	email: string
+	password: string
+	confirmPassword: string
+}
 
-export function LoginForm({className, ...props}: React.ComponentProps<"div">) {
-	const route = useRouter()
-	const [formData, setFormData] = useState<{
-		email: string
-		password: string
-	}>({
-		email: "",
-		password: ""
+const initialValue: registerForm = {
+	email: "",
+	password: "",
+	confirmPassword: ""
+}
+
+export function RegisterForm({
+	className,
+	...props
+}: React.ComponentProps<"div">) {
+	const [formData, setFormData] = useState<registerForm>(initialValue)
+	const [loading, setLoading] = useState<boolean>(false)
+	const router = useRouter()
+	const [passwordChecks, setPasswordChecks] = useState({
+		length: false,
+		alphanumeric: false,
+		capital: false,
+		special: false
 	})
-
-	const [loading, setLoading] = useState(false)
-
-	const [password, setPassword] = useState(true)
-
 	const onChangeValue = (key: string, value: string) => {
 		setFormData((prev) => ({
 			...prev,
@@ -39,11 +48,32 @@ export function LoginForm({className, ...props}: React.ComponentProps<"div">) {
 		}))
 	}
 
+	const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const value = e.target.value
+		onChangeValue("password", value)
+
+		setPasswordChecks({
+			length: value.length >= 8,
+			alphanumeric: /[A-Za-z]/.test(value) && /[0-9]/.test(value),
+			capital: /[A-Z]/.test(value),
+			special: /[!@#$%^&*(),.?":{}|<>]/.test(value)
+		})
+	}
+
+	const getColor = (condition: boolean) =>
+		condition ? "text-green-500" : "text-red-500"
+
 	const onSubmit = async () => {
         setLoading(true)
+        const passCheck = Object.values(passwordChecks)
+        if(passCheck.includes(false)) {
+            toast.error("Fill password criteria")
+            setLoading(false)
+            return
+        }
 
-		if (formData.password !=="" && formData.email !== "" ) {
-			await loginUser({
+		if (formData.password === formData.confirmPassword) {
+			await register({
 				email: formData.email,
 				password: formData.password
 			})
@@ -59,14 +89,9 @@ export function LoginForm({className, ...props}: React.ComponentProps<"div">) {
 		} else {
 			setLoading(false)
 			toast.error("Password does not match")
+			setFormData(initialValue)
 		}
 	}
-
-	useEffect(() => {
-		if(formData) {
-			console.log("formData", formData)
-		}
-	}, [formData])
 
 	return (
 		<div
@@ -81,9 +106,9 @@ export function LoginForm({className, ...props}: React.ComponentProps<"div">) {
 					<form className="p-6 md:p-8">
 						<FieldGroup>
 							<div className="flex flex-col items-center gap-2 text-center">
-								<h1 className="text-2xl font-bold">Welcome back</h1>
+								<h1 className="text-2xl font-bold">Hello there</h1>
 								<p className="text-muted-foreground text-balance">
-									Login to your Shdwme account!
+									Create your <strong>SHDWME</strong> account!
 								</p>
 							</div>
 							<Field>
@@ -100,39 +125,73 @@ export function LoginForm({className, ...props}: React.ComponentProps<"div">) {
 							<Field>
 								<div className="flex items-center">
 									<FieldLabel htmlFor="password">Password</FieldLabel>
-									<a
-										href="#"
-										className="ml-auto text-sm underline-offset-2 hover:underline"
-									>
-										Forgot your password?
-									</a>
 								</div>
-								<div className="relative">
-									<Input 
-										id="password" 
-										type={password ? "password" : "text"} 
-										value={formData.password}
-										onChange={(e) => onChangeValue("password", e.target.value)}
-										required
-									/>
-									{
-										password ? 
-										<EyeClosed 
-											className="absolute top-2 right-5"
-											onClick={() => setPassword(false)}
-										/>
-										: <Eye 
-											className="absolute top-2 right-5"
-											onClick={() => setPassword(true)}	
-										/>
+								<Input
+									id="password"
+									type="password"
+									value={formData.password}
+									onChange={handlePasswordChange}
+									required
+								/>
+                                <div>
+								<div className="h-2 mt-2 bg-gray-200 rounded-full overflow-hidden">
+									<div
+										className={`h-2 rounded-full transition-all duration-500 ease-in-out 
+                                ${
+					            Object.values(passwordChecks).filter(Boolean).length === 4
+					            	? "bg-green-500 w-full"
+					            	: Object.values(passwordChecks).filter(Boolean).length === 3
+					            		? "bg-yellow-400 w-3/4"
+					            		: Object.values(passwordChecks).filter(Boolean).length === 2
+					            			? "bg-orange-400 w-1/2"
+					            			: Object.values(passwordChecks).filter(Boolean).length === 1
+					            				? "bg-red-500 w-1/4"
+					            				: "bg-gray-200 w-0"
+				                }`}
+									></div>
+								</div>
+
+								{/* Password condition messages */}
+								<div className="mt-2 text-sm space-y-1">
+									<p className={getColor(passwordChecks.length)}>
+										• At least 8 characters
+									</p>
+									<p className={getColor(passwordChecks.alphanumeric)}>
+										• Alphanumeric (letters + numbers)
+									</p>
+									<p className={getColor(passwordChecks.capital)}>
+										• At least one uppercase letter
+									</p>
+									<p className={getColor(passwordChecks.special)}>
+										• At least one special character
+									</p>
+								</div>
+                                </div>
+							</Field>
+
+							<Field>
+								<div className="flex items-center">
+									<FieldLabel htmlFor="password">Confirm Password</FieldLabel>
+								</div>
+								<Input
+									id="password"
+									type="password"
+									value={formData.confirmPassword}
+									onChange={(e) =>
+										onChangeValue("confirmPassword", e.target.value)
 									}
-								</div>
+									required
+								/>
 							</Field>
 							<Field>
 								<Button
-									onClick={()=> onSubmit()}
 									type="button"
-								>{loading ? <Spinner /> : "Login"}</Button>
+									onClick={(e) => {
+										onSubmit()
+									}}
+								>
+									{loading ? <Spinner /> : "Register"}
+								</Button>
 							</Field>
 							<FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
 								Or continue with
@@ -167,16 +226,14 @@ export function LoginForm({className, ...props}: React.ComponentProps<"div">) {
 								</Button>
 							</Field>
 							<FieldDescription className="text-center cursor-pointer">
-								Don&apos;t have an account?{" "}
-								<span onClick={() => route.push("/auth/register")}>
-									Sign up
-								</span>
+								Already have an account?{" "}
+								<span onClick={() => router.push("/auth/login")}>Sign In</span>
 							</FieldDescription>
 						</FieldGroup>
 					</form>
 					<div className="bg-muted relative hidden md:block">
 						<img
-							src="https://s3.cdn.almostgods.com/wp-content/uploads/2025/10/AWD1-Mobile-Bannert.webp"
+							src="https://s3.cdn.almostgods.com/wp-content/uploads/2025/10/fila-banner-desktop-1.webp"
 							alt="Image"
 							className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
 						/>

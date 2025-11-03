@@ -1,10 +1,11 @@
 import {LoginForm} from "@/components/login-form"
-;<div
-	className="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat"
-	style={{
-		backgroundImage:
-			'url("https://s3.cdn.almostgods.com/wp-content/uploads/2025/10/AWD1-Mobile-Bannert.webp")'
-	}}
->
-	<LoginForm />
-</div>
+
+export default function LoginPage() {
+	return (
+		<div className="bg-muted flex min-h-svh flex-col items-center justify-center p-6 md:p-10">
+			<div className="w-full max-w-sm md:max-w-4xl">
+				<LoginForm />
+			</div>
+		</div>
+	)
+}

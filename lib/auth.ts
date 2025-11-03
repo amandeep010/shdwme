@@ -1,11 +1,11 @@
 import jwt from "jsonwebtoken"
 
-const SECRET = process.env.JWT_SECRET || "supersecret"
+const SECRET = process.env.NEXT_PUBLIC_JWT_SECRET || "supersecret"
 
 export function generateToken(user: any) {
 	return jwt.sign(
 		{
-			id: user.id,
+			userId: user.id,
 			email: user.email
 		},
 		SECRET,

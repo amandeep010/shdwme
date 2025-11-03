@@ -35,7 +35,7 @@ enum ROLE_TITLE {
   USER
 }
 
-enum  PAYMENT_MODE {
+enum PAYMENT_MODE {
   ONLINE
   CASH_ON_DELIVERY
 }
@@ -59,7 +59,7 @@ model Roles {
 
 model Users {
   userId     Int     @id @default(autoincrement())
-  fName      String
+  fName      String?
   lName      String?
   email      String  @unique
   roleId     Int
@@ -105,15 +105,16 @@ model Products {
 }
 
 model Coupons {
-  couponId       Int           @id @default(autoincrement())
-  title          String
-  description    String
-  couponCode     String
-  couponDiscount Int
-  currencyType   CURRENCY_TYPE
-  couponTerms    String
-  maxCoupon      Int
-  status         Boolean
+  couponId         Int           @id @default(autoincrement())
+  title            String
+  description      String
+  couponCode       String
+  couponDiscount   Int
+  currencyType     CURRENCY_TYPE
+  couponTerms      String
+  discountMaxLimit Int
+  maxCoupon        Int
+  status           Boolean
 
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
@@ -142,6 +143,7 @@ model ProductCouponMapping {
   productCouponId Int           @id @default(autoincrement())
   productId       Int
   couponId        Int
+  amount          Int
   status          ACTIVE_STATUS
 
   createdAt DateTime  @default(now())
@@ -153,14 +155,14 @@ model ProductCouponMapping {
 }
 
 model Orders {
-  orderId     Int     @id @default(autoincrement())
-  orderNumber String
-  description String
-  image       String?
-  price       String
-  userId      Int
-  productId   Int
-  paymentMode PAYMENT_MODE
+  orderId       Int            @id @default(autoincrement())
+  orderNumber   String
+  description   String
+  image         String?
+  price         String
+  userId        Int
+  productId     Int
+  paymentMode   PAYMENT_MODE
   paymentStatus PAYMENT_STATUS
 
   createdAt DateTime  @default(now())

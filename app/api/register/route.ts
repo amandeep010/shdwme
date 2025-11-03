@@ -18,9 +18,9 @@ export async function GET() {
 export async function POST(request: Request) {
 	try {
 		const body = await request.json()
-		const {fName, lName, email, password} = body
+		const {email, password} = body
 
-		if (!fName || !email || !password) {
+		if (!email || !password) {
 			return NextResponse.json(
 				{error: "Missing required fields"},
 				{status: 400}
@@ -34,22 +34,21 @@ export async function POST(request: Request) {
 		}
 
 		// ✅ Hash password
-		const hashedPassword = await bcrypt.hash(password, 10) // 10 = salt rounds
+		const hashedPassword = await bcrypt.hash(password, Number(process.env.NEXT_PUBLIC_SALT))
 
 		// ✅ Save user to DB with hashed password
-		// const newUser = await prisma.users.create({
-		// 	data: {
-		// 		fName,
-		// 		lName,
-		// 		email,
-		// 		password: hashedPassword,
-		// 	},
-		// })
+		const newUser = await prisma.users.create({
+			data: {
+				email,
+				password: hashedPassword,
+				roleId: 2
+			},
+		})
 
 		return NextResponse.json(
 			{
 				message: "User created successfully!",
-				data: {email: "newUser.email"}
+				data: newUser
 			},
 			{status: 201}
 		)
