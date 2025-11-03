@@ -1,4 +1,6 @@
+import {prisma} from "@/lib/prisma"
 import {NextResponse} from "next/server"
+import bcrypt from "bcrypt"
 
 export async function GET() {
 	const users = [
@@ -14,21 +16,47 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-	const body = await request.json()
-	const {name, email, password} = body
+	try {
+		const body = await request.json()
+		const {fName, lName, email, password} = body
 
-	if (!name || !email) {
-		return NextResponse.json({error: "Missing name or email"}, {status: 400})
+		if (!fName || !email || !password) {
+			return NextResponse.json(
+				{error: "Missing required fields"},
+				{status: 400}
+			)
+		}
+
+		// ✅ Check if user already exists
+		const existingUser = await prisma.users.findUnique({where: {email}})
+		if (existingUser) {
+			return NextResponse.json({error: "User already exists"}, {status: 400})
+		}
+
+		// ✅ Hash password
+		const hashedPassword = await bcrypt.hash(password, 10) // 10 = salt rounds
+
+		// ✅ Save user to DB with hashed password
+		// const newUser = await prisma.users.create({
+		// 	data: {
+		// 		fName,
+		// 		lName,
+		// 		email,
+		// 		password: hashedPassword,
+		// 	},
+		// })
+
+		return NextResponse.json(
+			{
+				message: "User created successfully!",
+				data: {email: "newUser.email"}
+			},
+			{status: 201}
+		)
+	} catch (error) {
+		console.error("Error creating user:", error)
+		return NextResponse.json({error: "Internal server error"}, {status: 500})
 	}
-
-	if (!password) {
-		return NextResponse.json({error: "Missing password"}, {status: 400})
-	}
-
-	return NextResponse.json({
-		message: "User created successfully!",
-		data: {name, email}
-	})
 }
 
 export async function PUT(request: Request) {

@@ -13,6 +13,12 @@ CREATE TYPE "ACTIVE_STATUS" AS ENUM ('ACTIVE', 'EXPIRED');
 -- CreateEnum
 CREATE TYPE "ROLE_TITLE" AS ENUM ('SUPER_ADMIN', 'USER');
 
+-- CreateEnum
+CREATE TYPE "PAYMENT_MODE" AS ENUM ('ONLINE', 'CASH_ON_DELIVERY');
+
+-- CreateEnum
+CREATE TYPE "PAYMENT_STATUS" AS ENUM ('SUCCESS', 'FAILED', 'PROCESSING');
+
 -- CreateTable
 CREATE TABLE "Roles" (
     "roleId" SERIAL NOT NULL,
@@ -27,10 +33,10 @@ CREATE TABLE "Roles" (
 -- CreateTable
 CREATE TABLE "Users" (
     "userId" SERIAL NOT NULL,
-    "first" TEXT NOT NULL,
+    "fName" TEXT NOT NULL,
+    "lName" TEXT,
     "email" TEXT NOT NULL,
     "roleId" INTEGER NOT NULL,
-    "last" TEXT,
     "mobile" TEXT,
     "password" TEXT,
     "country" TEXT,
@@ -118,6 +124,8 @@ CREATE TABLE "Orders" (
     "price" TEXT NOT NULL,
     "userId" INTEGER NOT NULL,
     "productId" INTEGER NOT NULL,
+    "paymentMode" "PAYMENT_MODE" NOT NULL,
+    "paymentStatus" "PAYMENT_STATUS" NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3),
     "deletedAt" TIMESTAMP(3),
