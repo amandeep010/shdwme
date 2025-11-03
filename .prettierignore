@@ -20,3 +20,14 @@ collections/
 .env.sample
 yarn.lock
 .history
+components.json
+eslint.config.mjs
+next-env.d.ts
+next.config.ts
+postcss.config.mjs
+prisma.config.ts
+README.md
+tsconfig.json
+.next/
+app/globals.css
+app/favicon.ico

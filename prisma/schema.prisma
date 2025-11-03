@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -25,37 +25,56 @@ enum CURRENCY_TYPE {
   CURRENCY_TYPE
 }
 
-model Roles {
-  roleId      Int       @id @default(autoincrement())
-  orderNumber String
-  description String
-  image       String
-  price       String
+enum ACTIVE_STATUS {
+  ACTIVE
+  EXPIRED
+}
 
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime? @updatedAt
-  deletedAt   DateTime?
+enum ROLE_TITLE {
+  SUPER_ADMIN
+  USER
+}
+
+model Roles {
+  roleId   Int        @id @default(autoincrement())
+  roleName ROLE_TITLE
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  deletedAt DateTime?
+
+  user Users[]
 }
 
 model Users {
-  userId      Int       @id @default(autoincrement())
-  first       String
-  last        String?
-  email       String    @unique
-  password    String?
-  address     String?
-  pincode     String?
+  userId     Int     @id @default(autoincrement())
+  first      String
+  email      String  @unique
+  roleId     Int
+  last       String?
+  mobile     String?
+  password   String?
+  country    String?
+  state      String?
+  city       String?
+  address    String?
+  pincode    String?
+  isVerified Boolean @default(false)
 
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime? @updatedAt
-  deletedAt   DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  deletedAt DateTime?
 
-  orders      Orders[]
-  sessions    UserSession[]
+  role Roles @relation(fields: [roleId], references: [roleId])
+
+  orders            Orders[]
+  sessions          UserSession[]
+  carts             UserCart[]
+  userCouponMapping UserCouponMapping[]
 }
 
 model Products {
-  productId   Int       @id @default(autoincrement())
+  productId   Int      @id @default(autoincrement())
   title       String
   description String
   image       String?
@@ -64,70 +83,103 @@ model Products {
   size        SIZE
   quantity    Int
   detail      String?
-  coupons     String?
 
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime? @updatedAt
-  deletedAt   DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  deletedAt DateTime?
 
-  orders      Orders[]
-}
-
-model Orders {
-  orderId      Int       @id @default(autoincrement())
-  orderNumber  String
-  description  String
-  image        String?
-  price        String
-  userId       Int
-  productId    Int
-
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime? @updatedAt
-  deletedAt    DateTime?
-
-  user         Users     @relation(fields: [userId], references: [userId])
-  product      Products  @relation(fields: [productId], references: [productId])
-}
-
-model UserCart {
-  cartId Int @id @default(autoincrement())
-  productId Int
-  userId  Int
-  quantity  Int
-  
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime? @updatedAt
-  deletedAt     DateTime?
-
-  product       Products    @relation(fields: [productId], references: [productId])
-  user       Users    @relation(fields: [userId], references: [userId])
+  orders        Orders[]
+  carts         UserCart[]
+  productCoupon ProductCouponMapping[]
 }
 
 model Coupons {
-  couponId Int @id @default(autoincrement())
-  title String
-  description String  
-  couponCode  String
-  couponDiscount  Int
-  currencyType    CURRENCY_TYPE
-  couponTerms String
-  maxCoupon   Int
-  status    Boolean
+  couponId       Int           @id @default(autoincrement())
+  title          String
+  description    String
+  couponCode     String
+  couponDiscount Int
+  currencyType   CURRENCY_TYPE
+  couponTerms    String
+  maxCoupon      Int
+  status         Boolean
 
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime? @updatedAt
-  deletedAt     DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  deletedAt DateTime?
+
+  userCoupon    UserCouponMapping[]
+  productCoupon ProductCouponMapping[]
+}
+
+model UserCouponMapping {
+  userCouponId Int           @id @default(autoincrement())
+  userId       Int
+  couponId     Int
+  amount       Int
+  status       ACTIVE_STATUS
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  deletedAt DateTime?
+
+  user   Users   @relation(fields: [userId], references: [userId])
+  coupon Coupons @relation(fields: [couponId], references: [couponId])
+}
+
+model ProductCouponMapping {
+  productCouponId Int           @id @default(autoincrement())
+  productId       Int
+  couponId        Int
+  status          ACTIVE_STATUS
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  deletedAt DateTime?
+
+  product Products @relation(fields: [productId], references: [productId])
+  coupon  Coupons  @relation(fields: [couponId], references: [couponId])
+}
+
+model Orders {
+  orderId     Int     @id @default(autoincrement())
+  orderNumber String
+  description String
+  image       String?
+  price       String
+  userId      Int
+  productId   Int
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  deletedAt DateTime?
+
+  user    Users    @relation(fields: [userId], references: [userId])
+  product Products @relation(fields: [productId], references: [productId])
+}
+
+model UserCart {
+  cartId    Int @id @default(autoincrement())
+  productId Int
+  userId    Int
+  quantity  Int
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  deletedAt DateTime?
+
+  product Products @relation(fields: [productId], references: [productId])
+  user    Users    @relation(fields: [userId], references: [userId])
 }
 
 model UserSession {
-  userSessionId Int       @id @default(autoincrement())
+  userSessionId Int    @id @default(autoincrement())
   userId        Int
   token         String
 
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime? @updatedAt
-  deletedAt     DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  deletedAt DateTime?
 
-  user          Users     @relation(fields: [userId], references: [userId])
+  user Users @relation(fields: [userId], references: [userId])
 }
