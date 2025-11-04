@@ -50,7 +50,7 @@ export async function POST(request: Request) {
                 message: "Login success!",
                 data: {
                     token,
-                    existingUser
+                    user: existingUser
                 }
             },
             {status: 201}

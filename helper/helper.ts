@@ -1,5 +1,5 @@
 
-export const saveDataToLocalStorage = (response: any) => {
-    console.log("type of response :", typeof  response)
-    console.log("response :", response)
+export const saveDataToLocalStorage = (token: string, user: string) => {
+    localStorage.setItem("token", token)
+    localStorage.setItem("user", user)
 }

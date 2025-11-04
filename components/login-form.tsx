@@ -7,7 +7,6 @@ import {
 	FieldDescription,
 	FieldGroup,
 	FieldLabel,
-	FieldSeparator
 } from "@/components/ui/field"
 import {Input} from "@/components/ui/input"
 import {useEffect, useState} from "react"
@@ -48,7 +47,7 @@ export function LoginForm({className, ...props}: React.ComponentProps<"div">) {
 				password: formData.password
 			})
 				.then((res) => {
-					toast.success("Your account has been created")
+					toast.success("Logged in successfully")
 				})
 				.catch((error) => {
 					toast.error(error.message)
@@ -71,17 +70,17 @@ export function LoginForm({className, ...props}: React.ComponentProps<"div">) {
 	return (
 		<div
 			className={cn(
-				"flex flex-col gap-6 min-w-[70vw] max-h-[70vw] overflow-auto",
+				"flex flex-col gap-6 min-w-[70vw] md:max-h-[70vw] overflow-auto ",
 				className
 			)}
 			{...props}
 		>
-			<Card className="overflow-auto p-0">
+			<Card className="overflow-hidden p-0">
 				<CardContent className="grid p-0 md:grid-cols-2">
-					<form className="p-6 md:p-8">
+					<form className="p-6 md:p-8 overflow-auto">
 						<FieldGroup>
-							<div className="flex flex-col items-center gap-2 text-center">
-								<h1 className="text-2xl font-bold">Welcome back</h1>
+							<div className="flex flex-col items-center gap-2 text-center ">
+								<h1 className="text-2xl font-bold s:mt-1 lg:mt-10">Welcome back</h1>
 								<p className="text-muted-foreground text-balance">
 									Login to your Shdwme account!
 								</p>
@@ -103,6 +102,9 @@ export function LoginForm({className, ...props}: React.ComponentProps<"div">) {
 									<a
 										href="#"
 										className="ml-auto text-sm underline-offset-2 hover:underline"
+										onClick={() => {
+											route.push("/auth/forgot-password")
+										}}
 									>
 										Forgot your password?
 									</a>
@@ -134,7 +136,7 @@ export function LoginForm({className, ...props}: React.ComponentProps<"div">) {
 									type="button"
 								>{loading ? <Spinner /> : "Login"}</Button>
 							</Field>
-							<FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
+							{/* <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
 								Or continue with
 							</FieldSeparator>
 							<Field className="grid grid-cols-3 gap-4">
@@ -165,7 +167,7 @@ export function LoginForm({className, ...props}: React.ComponentProps<"div">) {
 									</svg>
 									<span className="sr-only">Login with Meta</span>
 								</Button>
-							</Field>
+							</Field> */}
 							<FieldDescription className="text-center cursor-pointer">
 								Don&apos;t have an account?{" "}
 								<span onClick={() => route.push("/auth/register")}>
@@ -188,5 +190,95 @@ export function LoginForm({className, ...props}: React.ComponentProps<"div">) {
 				and <a href="#">Privacy Policy</a>.
 			</FieldDescription>
 		</div>
+// 		<div
+// 	className={cn(
+// 		"flex flex-col gap-6 w-full max-w-7xl mx-auto px-4 sm:px-6 transition-all duration-300",
+// 		className
+// 	)}
+// 	{...props}
+// >
+// 	<Card className="overflow-hidden p-0 transition-shadow duration-300 hover:shadow-xl w-[60vw]">
+// 		<CardContent className="grid p-0 md:grid-cols-2 transition-all duration-500">
+// 			<form className="p-6 sm:p-8 md:p-10 lg:p-12 bg-black/20 backdrop-blur-lg flex items-center transition-all duration-300">
+// 				<FieldGroup className="w-full space-y-4 sm:space-y-5">
+// 					<div className="flex flex-col items-center gap-2 text-center animate-in fade-in slide-in-from-top-4 duration-500">
+// 						<h1 className="text-xl sm:text-2xl md:text-3xl font-bold transition-all duration-300">Welcome back</h1>
+// 						<p className="text-muted-foreground text-balance text-sm sm:text-base transition-all duration-300">
+// 							Login to your Shdwme account!
+// 						</p>
+// 					</div>
+// 					<Field className="animate-in fade-in slide-in-from-left-4 duration-500 delay-100">
+// 						<FieldLabel htmlFor="email" className="text-sm sm:text-base">Email</FieldLabel>
+// 						<Input
+// 							id="email"
+// 							type="email"
+// 							placeholder="m@example.com"
+// 							value={formData.email}
+// 							onChange={(e) => onChangeValue("email", e.target.value)}
+// 							className="transition-all duration-200 focus:scale-[1.01]"
+// 							required
+// 						/>
+// 					</Field>
+// 					<Field className="animate-in fade-in slide-in-from-left-4 duration-500 delay-200">
+// 						<div className="flex items-center">
+// 							<FieldLabel htmlFor="password" className="text-sm sm:text-base">Password</FieldLabel>
+// 							<a
+// 								href="#"
+// 								className="ml-auto text-xs sm:text-sm underline-offset-2 hover:underline transition-all duration-200"
+// 							>
+// 								Forgot your password?
+// 							</a>
+// 						</div>
+// 						<div className="relative">
+// 							<Input 
+// 								id="password" 
+// 								type={password ? "password" : "text"} 
+// 								value={formData.password}
+// 								onChange={(e) => onChangeValue("password", e.target.value)}
+// 								className="transition-all duration-200 focus:scale-[1.01]"
+// 								required
+// 							/>
+// 							{
+// 								password ? 
+// 								<EyeClosed 
+// 									className="absolute top-2 right-3 sm:right-5 cursor-pointer transition-all duration-200 hover:scale-110 active:scale-95"
+// 									onClick={() => setPassword(false)}
+// 								/>
+// 								: <Eye 
+// 									className="absolute top-2 right-3 sm:right-5 cursor-pointer transition-all duration-200 hover:scale-110 active:scale-95"
+// 									onClick={() => setPassword(true)}	
+// 								/>
+// 							}
+// 						</div>
+// 					</Field>
+// 					<Field className="animate-in fade-in slide-in-from-bottom-4 duration-500 delay-300">
+// 						<Button
+// 							onClick={()=> onSubmit()}
+// 							type="button"
+// 							className="w-full transition-all duration-200 hover:scale-[1.02] active:scale-95"
+// 						>{loading ? <Spinner /> : "Login"}</Button>
+// 					</Field>
+// 					<FieldDescription className="text-center cursor-pointer text-sm sm:text-base animate-in fade-in duration-500 delay-400">
+// 						Don&apos;t have an account?{" "}
+// 						<span onClick={() => route.push("/auth/register")} className="underline transition-all duration-200 hover:text-primary">
+// 							Sign up
+// 						</span>
+// 					</FieldDescription>
+// 				</FieldGroup>
+// 			</form>
+// 			<div className="bg-muted relative hidden md:block min-h-[500px] lg:min-h-[600px] overflow-hidden group">
+// 				<img
+// 					src="https://s3.cdn.almostgods.com/wp-content/uploads/2025/10/AWD1-Mobile-Bannert.webp"
+// 					alt="Image"
+// 					className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale transition-transform duration-700 group-hover:scale-105"
+// 				/>
+// 			</div>
+// 		</CardContent>
+// 	</Card>
+// 	<FieldDescription className="text-center text-xs sm:text-sm transition-all duration-300 animate-in fade-in duration-700">
+// 		By clicking continue, you agree to our <a href="#" className="underline transition-all duration-200 hover:text-primary">Terms of Service</a>{" "}
+// 		and <a href="#" className="underline transition-all duration-200 hover:text-primary">Privacy Policy</a>.
+// 	</FieldDescription>
+// </div>
 	)
 }
