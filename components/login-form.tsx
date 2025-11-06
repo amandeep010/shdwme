@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/field"
 import {Input} from "@/components/ui/input"
 import {useEffect, useState} from "react"
-import {useRouter} from "next/navigation"
+import { useRouter} from "next/navigation"
 import { EyeClosed, Eye } from 'lucide-react';
 import { Spinner } from "./ui/shadcn-io/spinner"
 import { toast } from "sonner"
@@ -18,7 +18,8 @@ import { loginUser } from "@/lib/api/auth.service"
 
 
 export function LoginForm({className, ...props}: React.ComponentProps<"div">) {
-	const route = useRouter()
+	const [loading, setLoading] = useState(false)
+	const [password, setPassword] = useState(true)
 	const [formData, setFormData] = useState<{
 		email: string
 		password: string
@@ -26,10 +27,15 @@ export function LoginForm({className, ...props}: React.ComponentProps<"div">) {
 		email: "",
 		password: ""
 	})
+	
+	const route = useRouter()
 
-	const [loading, setLoading] = useState(false)
+	useEffect(() => {
+		if(localStorage.getItem("token")) {
+			route.push("/dashboard")
+		}
+	}, [])
 
-	const [password, setPassword] = useState(true)
 
 	const onChangeValue = (key: string, value: string) => {
 		setFormData((prev) => ({
@@ -40,7 +46,6 @@ export function LoginForm({className, ...props}: React.ComponentProps<"div">) {
 
 	const onSubmit = async () => {
         setLoading(true)
-
 		if (formData.password !=="" && formData.email !== "" ) {
 			await loginUser({
 				email: formData.email,
@@ -48,6 +53,7 @@ export function LoginForm({className, ...props}: React.ComponentProps<"div">) {
 			})
 				.then((res) => {
 					toast.success("Logged in successfully")
+					route.push("/dashboard")
 				})
 				.catch((error) => {
 					toast.error(error.message)
@@ -60,12 +66,6 @@ export function LoginForm({className, ...props}: React.ComponentProps<"div">) {
 			toast.error("Password does not match")
 		}
 	}
-
-	useEffect(() => {
-		if(formData) {
-			console.log("formData", formData)
-		}
-	}, [formData])
 
 	return (
 		<div

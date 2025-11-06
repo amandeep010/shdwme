@@ -46,6 +46,13 @@ enum PAYMENT_STATUS {
   PROCESSING
 }
 
+enum ORDER_STATUS {
+  RECEIVED
+  SHIPPED
+  DELIVERED
+  REJECTED
+}
+
 model Roles {
   roleId   Int        @id @default(autoincrement())
   roleName ROLE_TITLE
@@ -78,9 +85,9 @@ model Users {
 
   role Roles @relation(fields: [roleId], references: [roleId])
 
-  orders            Orders[]
-  sessions          UserSession[]
   carts             UserCart[]
+  userOrders        UserOrder[]
+  sessions          UserSession[]
   userCouponMapping UserCouponMapping[]
 }
 
@@ -150,27 +157,47 @@ model ProductCouponMapping {
   updatedAt DateTime? @updatedAt
   deletedAt DateTime?
 
-  product Products @relation(fields: [productId], references: [productId])
   coupon  Coupons  @relation(fields: [couponId], references: [couponId])
+  product Products @relation(fields: [productId], references: [productId])
 }
 
 model Orders {
-  orderId       Int            @id @default(autoincrement())
-  orderNumber   String
-  description   String
-  image         String?
-  price         String
-  userId        Int
-  productId     Int
-  paymentMode   PAYMENT_MODE
-  paymentStatus PAYMENT_STATUS
+  orderId     Int    @id @default(autoincrement())
+  description String
+  productId   Int
+  userOrderId Int
+  price       String
 
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
   deletedAt DateTime?
 
-  user    Users    @relation(fields: [userId], references: [userId])
-  product Products @relation(fields: [productId], references: [productId])
+  userOrder UserOrder @relation(fields: [userOrderId], references: [id])
+  product   Products  @relation(fields: [productId], references: [productId])
+}
+
+model UserOrder {
+  id             Int            @id @default(autoincrement())
+  userId         Int
+  orderNumber    String
+  paymentMode    PAYMENT_MODE
+  paymentStatus  PAYMENT_STATUS
+  gstCharge      Float
+  handlingCharge Float
+  shipping       Int
+  discount       Int
+  discountType   CURRENCY_TYPE
+  total          Int
+  shippingTime   DateTime       @default(now())
+  arrivalTime    DateTime
+  status         ORDER_STATUS
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  deletedAt DateTime?
+
+  user   Users    @relation(fields: [userId], references: [userId])
+  orders Orders[]
 }
 
 model UserCart {
@@ -183,8 +210,8 @@ model UserCart {
   updatedAt DateTime? @updatedAt
   deletedAt DateTime?
 
-  product Products @relation(fields: [productId], references: [productId])
   user    Users    @relation(fields: [userId], references: [userId])
+  product Products @relation(fields: [productId], references: [productId])
 }
 
 model UserSession {
