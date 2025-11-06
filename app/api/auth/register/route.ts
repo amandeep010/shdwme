@@ -34,7 +34,10 @@ export async function POST(request: Request) {
 		}
 
 		// ✅ Hash password
-		const hashedPassword = await bcrypt.hash(password, Number(process.env.NEXT_PUBLIC_SALT))
+		const hashedPassword = await bcrypt.hash(
+			password,
+			Number(process.env.NEXT_PUBLIC_SALT)
+		)
 
 		// ✅ Save user to DB with hashed password
 		const newUser = await prisma.users.create({
@@ -42,7 +45,7 @@ export async function POST(request: Request) {
 				email,
 				password: hashedPassword,
 				roleId: 2
-			},
+			}
 		})
 
 		return NextResponse.json(

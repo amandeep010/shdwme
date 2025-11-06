@@ -6,7 +6,7 @@ import {
 	Field,
 	FieldDescription,
 	FieldGroup,
-	FieldLabel,
+	FieldLabel
 } from "@/components/ui/field"
 import {Input} from "@/components/ui/input"
 import {useState} from "react"
@@ -36,7 +36,7 @@ export function ForgotPasswordForm({
 	const [formData, setFormData] = useState<registerForm>(initialValue)
 	const [loading, setLoading] = useState<boolean>(false)
 	const router = useRouter()
-	
+
 	const onChangeValue = (key: string, value: string) => {
 		setFormData((prev) => ({
 			...prev,
@@ -45,12 +45,12 @@ export function ForgotPasswordForm({
 	}
 
 	const onSubmit = async () => {
-        setLoading(true)
-        if(formData.password !== formData.confirmPassword) {
-            toast.error("Confirm password does not match")
-            setLoading(false)
-            return
-        }
+		setLoading(true)
+		if (formData.password !== formData.confirmPassword) {
+			toast.error("Confirm password does not match")
+			setLoading(false)
+			return
+		}
 		if (formData.password === formData.confirmPassword) {
 			await forgotPassword({
 				email: formData.email,
@@ -87,7 +87,6 @@ export function ForgotPasswordForm({
 						<FieldGroup>
 							<div className="flex flex-col items-center gap-2 text-center">
 								<h1 className="text-2xl font-bold">Forgot Password</h1>
-								
 							</div>
 							<Field>
 								<FieldLabel htmlFor="email">Email</FieldLabel>
@@ -111,7 +110,6 @@ export function ForgotPasswordForm({
 									onChange={(e) => onChangeValue("oldPassword", e.target.value)}
 									required
 								/>
-                                
 							</Field>
 
 							<Field>
@@ -122,9 +120,7 @@ export function ForgotPasswordForm({
 									id="password"
 									type="password"
 									value={formData.password}
-									onChange={(e) =>
-										onChangeValue("password", e.target.value)
-									}
+									onChange={(e) => onChangeValue("password", e.target.value)}
 									required
 								/>
 							</Field>
@@ -155,9 +151,9 @@ export function ForgotPasswordForm({
 							</Field>
 						</FieldGroup>
 						<FieldDescription className="text-center cursor-pointer mt-6 pt-3">
-								Already have an account password!?{" "}
-								<span onClick={() => router.push("/auth/login")}>Sign In</span>
-							</FieldDescription>
+							Already have an account password!?{" "}
+							<span onClick={() => router.push("/auth/login")}>Sign In</span>
+						</FieldDescription>
 					</form>
 					<div className="bg-muted relative hidden md:block">
 						<img

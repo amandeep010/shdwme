@@ -6,7 +6,7 @@ import {
 	Field,
 	FieldDescription,
 	FieldGroup,
-	FieldLabel,
+	FieldLabel
 } from "@/components/ui/field"
 import {Input} from "@/components/ui/input"
 import {useState} from "react"
@@ -63,13 +63,13 @@ export function RegisterForm({
 		condition ? "text-green-500" : "text-red-500"
 
 	const onSubmit = async () => {
-        setLoading(true)
-        const passCheck = Object.values(passwordChecks)
-        if(passCheck.includes(false)) {
-            toast.error("Fill password criteria")
-            setLoading(false)
-            return
-        }
+		setLoading(true)
+		const passCheck = Object.values(passwordChecks)
+		if (passCheck.includes(false)) {
+			toast.error("Fill password criteria")
+			setLoading(false)
+			return
+		}
 
 		if (formData.password === formData.confirmPassword) {
 			await register({
@@ -133,45 +133,43 @@ export function RegisterForm({
 									required
 								/>
 								{
-								// 	formData.password !== "" ?
-								// 	(
-								// 		<div>
-								// <div className="h-2 mt-2 bg-gray-200 rounded-full overflow-hidden">
-								// 	<div
-								// 		className={`h-2 rounded-full transition-all duration-500 ease-in-out 
-                                // ${
-					            // Object.values(passwordChecks).filter(Boolean).length === 4
-					            // 	? "bg-green-500 w-full"
-					            // 	: Object.values(passwordChecks).filter(Boolean).length === 3
-					            // 		? "bg-yellow-400 w-3/4"
-					            // 		: Object.values(passwordChecks).filter(Boolean).length === 2
-					            // 			? "bg-orange-400 w-1/2"
-					            // 			: Object.values(passwordChecks).filter(Boolean).length === 1
-					            // 				? "bg-red-500 w-1/4"
-					            // 				: "bg-gray-200 w-0"
-				                // }`}
-								// 	></div>
-								// </div>
-
-								// {/* Password condition messages */}
-								// <div className="mt-2 text-sm space-y-1">
-								// 	<p className={getColor(passwordChecks.length)}>
-								// 		• At least 8 characters
-								// 	</p>
-								// 	<p className={getColor(passwordChecks.alphanumeric)}>
-								// 		• Alphanumeric (letters + numbers)
-								// 	</p>
-								// 	<p className={getColor(passwordChecks.capital)}>
-								// 		• At least one uppercase letter
-								// 	</p>
-								// 	<p className={getColor(passwordChecks.special)}>
-								// 		• At least one special character
-								// 	</p>
-								// </div>
-                                // </div>
-								// 	) : (<></>)
+									// 	formData.password !== "" ?
+									// 	(
+									// 		<div>
+									// <div className="h-2 mt-2 bg-gray-200 rounded-full overflow-hidden">
+									// 	<div
+									// 		className={`h-2 rounded-full transition-all duration-500 ease-in-out
+									// ${
+									// Object.values(passwordChecks).filter(Boolean).length === 4
+									// 	? "bg-green-500 w-full"
+									// 	: Object.values(passwordChecks).filter(Boolean).length === 3
+									// 		? "bg-yellow-400 w-3/4"
+									// 		: Object.values(passwordChecks).filter(Boolean).length === 2
+									// 			? "bg-orange-400 w-1/2"
+									// 			: Object.values(passwordChecks).filter(Boolean).length === 1
+									// 				? "bg-red-500 w-1/4"
+									// 				: "bg-gray-200 w-0"
+									// }`}
+									// 	></div>
+									// </div>
+									// {/* Password condition messages */}
+									// <div className="mt-2 text-sm space-y-1">
+									// 	<p className={getColor(passwordChecks.length)}>
+									// 		• At least 8 characters
+									// 	</p>
+									// 	<p className={getColor(passwordChecks.alphanumeric)}>
+									// 		• Alphanumeric (letters + numbers)
+									// 	</p>
+									// 	<p className={getColor(passwordChecks.capital)}>
+									// 		• At least one uppercase letter
+									// 	</p>
+									// 	<p className={getColor(passwordChecks.special)}>
+									// 		• At least one special character
+									// 	</p>
+									// </div>
+									// </div>
+									// 	) : (<></>)
 								}
-                                
 							</Field>
 
 							<Field>
@@ -250,94 +248,94 @@ export function RegisterForm({
 				and <a href="#">Privacy Policy</a>.
 			</FieldDescription>
 		</div>
-// 		<div
-// 	className={cn(
-// 		"flex flex-col gap-6 w-full max-w-7xl mx-auto px-4 sm:px-6 transition-all duration-300",
-// 		className
-// 	)}
-// 	{...props}
-// >
-// 	<Card className="overflow-hidden p-0 transition-shadow duration-300 hover:shadow-xl">
-// 		<CardContent className="grid p-0 md:grid-cols-2 transition-all duration-500">
-// 			<form className="p-6 sm:p-8 md:p-10 lg:p-12 bg-black/20 backdrop-blur-lg flex items-center transition-all duration-300">
-// 				<FieldGroup className="w-full space-y-4 sm:space-y-5">
-// 					<div className="flex flex-col items-center gap-2 text-center animate-in fade-in slide-in-from-top-4 duration-500">
-// 						<h1 className="text-xl sm:text-2xl md:text-3xl font-bold transition-all duration-300">Hello there</h1>
-// 						<p className="text-muted-foreground text-balance text-sm sm:text-base transition-all duration-300">
-// 							Create your <strong>SHDWME</strong> account!
-// 						</p>
-// 					</div>
-// 					<Field className="animate-in fade-in slide-in-from-left-4 duration-500 delay-100">
-// 						<FieldLabel htmlFor="email" className="text-sm sm:text-base">Email</FieldLabel>
-// 						<Input
-// 							id="email"
-// 							type="email"
-// 							placeholder="m@example.com"
-// 							value={formData.email}
-// 							onChange={(e) => onChangeValue("email", e.target.value)}
-// 							className="transition-all duration-200 focus:scale-[1.01]"
-// 							required
-// 						/>
-// 					</Field>
-// 					<Field className="animate-in fade-in slide-in-from-left-4 duration-500 delay-100">
-// 						<div className="flex items-center">
-// 							<FieldLabel htmlFor="password" className="text-sm sm:text-base">Password</FieldLabel>
-// 						</div>
-// 						<Input
-// 							id="password"
-// 							type="password"
-// 							value={formData.password}
-// 							onChange={handlePasswordChange}
-// 							className="transition-all duration-200 focus:scale-[1.01]"
-// 							required
-// 						/>
-// 					</Field>
+		// 		<div
+		// 	className={cn(
+		// 		"flex flex-col gap-6 w-full max-w-7xl mx-auto px-4 sm:px-6 transition-all duration-300",
+		// 		className
+		// 	)}
+		// 	{...props}
+		// >
+		// 	<Card className="overflow-hidden p-0 transition-shadow duration-300 hover:shadow-xl">
+		// 		<CardContent className="grid p-0 md:grid-cols-2 transition-all duration-500">
+		// 			<form className="p-6 sm:p-8 md:p-10 lg:p-12 bg-black/20 backdrop-blur-lg flex items-center transition-all duration-300">
+		// 				<FieldGroup className="w-full space-y-4 sm:space-y-5">
+		// 					<div className="flex flex-col items-center gap-2 text-center animate-in fade-in slide-in-from-top-4 duration-500">
+		// 						<h1 className="text-xl sm:text-2xl md:text-3xl font-bold transition-all duration-300">Hello there</h1>
+		// 						<p className="text-muted-foreground text-balance text-sm sm:text-base transition-all duration-300">
+		// 							Create your <strong>SHDWME</strong> account!
+		// 						</p>
+		// 					</div>
+		// 					<Field className="animate-in fade-in slide-in-from-left-4 duration-500 delay-100">
+		// 						<FieldLabel htmlFor="email" className="text-sm sm:text-base">Email</FieldLabel>
+		// 						<Input
+		// 							id="email"
+		// 							type="email"
+		// 							placeholder="m@example.com"
+		// 							value={formData.email}
+		// 							onChange={(e) => onChangeValue("email", e.target.value)}
+		// 							className="transition-all duration-200 focus:scale-[1.01]"
+		// 							required
+		// 						/>
+		// 					</Field>
+		// 					<Field className="animate-in fade-in slide-in-from-left-4 duration-500 delay-100">
+		// 						<div className="flex items-center">
+		// 							<FieldLabel htmlFor="password" className="text-sm sm:text-base">Password</FieldLabel>
+		// 						</div>
+		// 						<Input
+		// 							id="password"
+		// 							type="password"
+		// 							value={formData.password}
+		// 							onChange={handlePasswordChange}
+		// 							className="transition-all duration-200 focus:scale-[1.01]"
+		// 							required
+		// 						/>
+		// 					</Field>
 
-// 					<Field className="animate-in fade-in slide-in-from-left-4 duration-500 delay-100">
-// 						<div className="flex items-center">
-// 							<FieldLabel htmlFor="confirmPassword" className="text-sm sm:text-base">Confirm Password</FieldLabel>
-// 						</div>
-// 						<Input
-// 							id="confirmPassword"
-// 							type="password"
-// 							value={formData.confirmPassword}
-// 							onChange={(e) =>
-// 								onChangeValue("confirmPassword", e.target.value)
-// 							}
-// 							className="transition-all duration-200 focus:scale-[1.01] bg-[#E8F0FE]"
-// 							required
-// 						/>
-// 					</Field>
-// 					<Field className="animate-in fade-in slide-in-from-bottom-4 duration-500 delay-200">
-// 						<Button
-// 							type="button"
-// 							onClick={(e) => {
-// 								onSubmit()
-// 							}}
-// 							className="w-full transition-all duration-200 hover:scale-[1.02] active:scale-95"
-// 						>
-// 							{loading ? <Spinner /> : "Register"}
-// 						</Button>
-// 					</Field>
-// 					<FieldDescription className="text-center cursor-pointer text-sm sm:text-base animate-in fade-in duration-500 delay-500">
-// 						Already have an account?{" "}
-// 						<span onClick={() => router.push("/auth/login")} className="underline transition-all duration-200 hover:text-primary">Sign In</span>
-// 					</FieldDescription>
-// 				</FieldGroup>
-// 			</form>
-// 			<div className="bg-muted relative hidden md:block min-h-[500px] lg:min-h-[600px] overflow-hidden group">
-// 				<img
-// 					src="https://s3.cdn.almostgods.com/wp-content/uploads/2025/10/fila-banner-desktop-1.webp"
-// 					alt="Image"
-// 					className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale transition-transform duration-700 group-hover:scale-105"
-// 				/>
-// 			</div>
-// 		</CardContent>
-// 	</Card>
-// 	<FieldDescription className="text-center text-xs sm:text-sm transition-all duration-300 animate-in fade-in duration-700">
-// 		By clicking continue, you agree to our <a href="#" className="underline transition-all duration-200 hover:text-primary">Terms of Service</a>{" "}
-// 		and <a href="#" className="underline transition-all duration-200 hover:text-primary">Privacy Policy</a>.
-// 	</FieldDescription>
-// </div>
+		// 					<Field className="animate-in fade-in slide-in-from-left-4 duration-500 delay-100">
+		// 						<div className="flex items-center">
+		// 							<FieldLabel htmlFor="confirmPassword" className="text-sm sm:text-base">Confirm Password</FieldLabel>
+		// 						</div>
+		// 						<Input
+		// 							id="confirmPassword"
+		// 							type="password"
+		// 							value={formData.confirmPassword}
+		// 							onChange={(e) =>
+		// 								onChangeValue("confirmPassword", e.target.value)
+		// 							}
+		// 							className="transition-all duration-200 focus:scale-[1.01] bg-[#E8F0FE]"
+		// 							required
+		// 						/>
+		// 					</Field>
+		// 					<Field className="animate-in fade-in slide-in-from-bottom-4 duration-500 delay-200">
+		// 						<Button
+		// 							type="button"
+		// 							onClick={(e) => {
+		// 								onSubmit()
+		// 							}}
+		// 							className="w-full transition-all duration-200 hover:scale-[1.02] active:scale-95"
+		// 						>
+		// 							{loading ? <Spinner /> : "Register"}
+		// 						</Button>
+		// 					</Field>
+		// 					<FieldDescription className="text-center cursor-pointer text-sm sm:text-base animate-in fade-in duration-500 delay-500">
+		// 						Already have an account?{" "}
+		// 						<span onClick={() => router.push("/auth/login")} className="underline transition-all duration-200 hover:text-primary">Sign In</span>
+		// 					</FieldDescription>
+		// 				</FieldGroup>
+		// 			</form>
+		// 			<div className="bg-muted relative hidden md:block min-h-[500px] lg:min-h-[600px] overflow-hidden group">
+		// 				<img
+		// 					src="https://s3.cdn.almostgods.com/wp-content/uploads/2025/10/fila-banner-desktop-1.webp"
+		// 					alt="Image"
+		// 					className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale transition-transform duration-700 group-hover:scale-105"
+		// 				/>
+		// 			</div>
+		// 		</CardContent>
+		// 	</Card>
+		// 	<FieldDescription className="text-center text-xs sm:text-sm transition-all duration-300 animate-in fade-in duration-700">
+		// 		By clicking continue, you agree to our <a href="#" className="underline transition-all duration-200 hover:text-primary">Terms of Service</a>{" "}
+		// 		and <a href="#" className="underline transition-all duration-200 hover:text-primary">Privacy Policy</a>.
+		// 	</FieldDescription>
+		// </div>
 	)
 }

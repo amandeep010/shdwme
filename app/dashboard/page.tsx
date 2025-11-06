@@ -4,14 +4,10 @@ function Dashboard() {
 	return (
 		<div>
 			<ProtectedRoute>
-				<div>
-					
-				</div>
+				<div></div>
 			</ProtectedRoute>
 		</div>
 	)
 }
-
-
 
 export default Dashboard

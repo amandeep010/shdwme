@@ -7,7 +7,7 @@ import {Power} from "lucide-react"
 import CommonConfirmation from "@/components/common-confirmation"
 import {useRouter} from "next/navigation"
 import {emptyDataFromLocalstorage} from "@/helper/helper"
-import { toast } from "sonner"
+import {toast} from "sonner"
 
 const SideBarItem = (path: string, element: string) => {
 	return (
@@ -35,7 +35,7 @@ export default function DashboardLayout({
 			router.push("/auth/login")
 		}
 	}, [router])
-	
+
 	const logout = () => {
 		emptyDataFromLocalstorage()
 		router.push("/auth/login")

@@ -8,11 +8,11 @@ export async function proxy(req: NextRequest) {
 
 	// Define public routes that don’t need authentication
 	const publicPaths = [
-		"/api/auth/login", 
-		"/api/auth/register", 
+		"/api/auth/login",
+		"/api/auth/register",
 		"/api/auth/forgot-password"
 	]
-	
+
 	if (publicPaths.some((path) => req.nextUrl.pathname.startsWith(path))) {
 		return NextResponse.next()
 	}

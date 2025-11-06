@@ -18,11 +18,11 @@ interface CommonConfirmationProps {
 	onConfirm: () => void
 }
 
-const CommonConfirmation: React.FC<CommonConfirmationProps> = ({ 
-	trigger, 
-	title, 
+const CommonConfirmation: React.FC<CommonConfirmationProps> = ({
+	trigger,
+	title,
 	desc,
-	onConfirm, 
+	onConfirm
 }) => {
 	return (
 		<AlertDialog>
@@ -34,9 +34,7 @@ const CommonConfirmation: React.FC<CommonConfirmationProps> = ({
 				</AlertDialogHeader>
 				<AlertDialogFooter>
 					<AlertDialogCancel>Cancel</AlertDialogCancel>
-					<AlertDialogAction
-						onClick={onConfirm}
-					>Continue</AlertDialogAction>
+					<AlertDialogAction onClick={onConfirm}>Continue</AlertDialogAction>
 				</AlertDialogFooter>
 			</AlertDialogContent>
 		</AlertDialog>
