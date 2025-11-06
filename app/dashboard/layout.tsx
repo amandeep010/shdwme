@@ -13,7 +13,7 @@ const SideBarItem = (path: string, element: string) => {
 	return (
 		<Link
 			href={path}
-			className="bg-white text-black p-2 m-2 text-center font-bold rounded-sm hover:bg-transparent transition duration-500 hover:scale-105 hover:text-white"
+			className="bg-transparent text-black p-2 m-2 text-center font-bold rounded-sm transition duration-500 hover:scale-130"
 		>
 			{element}
 		</Link>
@@ -51,20 +51,20 @@ export default function DashboardLayout({
 			>
 				<div className="flex justify-between items-center p-6 border-b border-gray-800">
 					<h2
-						className={`text-xl font-semibold tracking-wide ${!isOpen && "hidden sm:block"}`}
+						className={`text-xl font-semibold tracking-wide transition duration-500 ${!isOpen && "hidden sm:block"}`}
 					>
-						Menu
+						Explore
 					</h2>
 					<button
 						onClick={() => setIsOpen(!isOpen)}
-						className="hover:bg-gray-800 p-2 rounded-lg transition duration-200"
+						className="hover:bg-black p-2 hover:text-white rounded-lg transition duration-200"
 					>
 						<X size={24} />
 					</button>
 				</div>
 
 				{/* Sidebar content */}
-				<div className={`p-6 flex flex-col space-y-2`}>
+				<div className={`p-6 flex flex-col space-y-2 `}>
 					{SideBarItem("/dashboard", "Dashboard")}
 					{SideBarItem("/dashboard/profile", "Profile")}
 					{SideBarItem("/dashboard/product-base", "Add product")}
