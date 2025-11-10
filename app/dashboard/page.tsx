@@ -1,11 +1,12 @@
 import ProtectedRoute from "@/components/ProtectedRoute"
 
-
 function Dashboard() {
 	const dashboard = (data: string) => {
-		return (<div className="p-4 m-1 bg-white rounded font-bold capitalize text-center transform transition-transform duration-500 hover:scale-105 hover:bg-red-200 shadow-white box-shadow: var(--shadow-2xs)">
-			{data}
-		</div>)
+		return (
+			<div className="p-4 m-1 bg-[var(--light-color)] rounded font-bold capitalize text-center transform transition-transform duration-500 hover:scale-105 hover:bg-[var(--dark-color)]-200 shadow-white box-shadow: var(--shadow-2xs)">
+				{data}
+			</div>
+		)
 	}
 	return (
 		<div>
@@ -20,10 +21,7 @@ function Dashboard() {
 					{dashboard("aman")}
 					{dashboard("aman")}
 				</div>
-
-				<div>
-					
-				</div>
+				<div></div>
 			</ProtectedRoute>
 		</div>
 	)

@@ -8,7 +8,7 @@ datasource db {
 }
 
 enum CATEGORY {
-  HOODIE
+  OVERSIZED_HOODIE
   SWEAT_SHIRTS
   OVERSIZED_TSHIRTS
 }
@@ -87,7 +87,6 @@ model Users {
 
   carts             UserCart[]
   userOrders        UserOrder[]
-  sessions          UserSession[]
   userCouponMapping UserCouponMapping[]
 }
 
@@ -98,6 +97,7 @@ model Products {
   image       String?
   price       String?
   categories  CATEGORY
+  video      String?
   size        SIZE
   quantity    Int
   detail      String?
@@ -214,14 +214,11 @@ model UserCart {
   product Products @relation(fields: [productId], references: [productId])
 }
 
-model UserSession {
-  userSessionId Int    @id @default(autoincrement())
-  userId        Int
-  token         String
+model auth {
+  authId       Int    @id @default(autoincrement())
+  userId       Int
+  accessToken  String
+  refreshToken String
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
-  deletedAt DateTime?
-
-  user Users @relation(fields: [userId], references: [userId])
+  createdAt DateTime @default(now())
 }

@@ -4,10 +4,10 @@ import React, {useEffect, useState} from "react"
 import {Menu, X} from "lucide-react"
 import Link from "next/link"
 import {Power} from "lucide-react"
-import CommonConfirmation from "@/components/common-confirmation"
 import {useRouter} from "next/navigation"
 import {emptyDataFromLocalstorage} from "@/helper/helper"
 import {toast} from "sonner"
+import dynamic from "next/dynamic";
 
 const SideBarItem = (path: string, element: string) => {
 	return (
@@ -19,6 +19,10 @@ const SideBarItem = (path: string, element: string) => {
 		</Link>
 	)
 }
+
+const CommonConfirmation = dynamic(() => import("@/components/common-confirmation"), {
+  ssr: false,
+});
 
 export default function DashboardLayout({
 	children
@@ -43,11 +47,11 @@ export default function DashboardLayout({
 	}
 
 	return (
-		<div className="flex h-screen overflow-hidden bg-black">
+		<div className="flex h-screen overflow-hidden bg-[var(--dark-color)]">
 			{/* Sidebar */}
 			<div
-				className={`fixed top-0 left-0 h-full bg-white text-black transition-all duration-300 ease-in-out z-50 backdrop-blur-lg bg-opacity-95
-        ${isOpen ? "w-[30vw]" : "w-[0vw] overflow-hidden"}`}
+				className={`fixed top-0 left-0 h-full bg-[var(--light-color)] round-xl text-black transition-all duration-300 ease-in-out z-50 backdrop-blur-lg bg-opacity-95
+        		${isOpen ? "w-[30vw]" : "w-[0vw] overflow-hidden"}`}
 			>
 				<div className="flex justify-between items-center p-6 border-b border-gray-800">
 					<h2
@@ -57,17 +61,20 @@ export default function DashboardLayout({
 					</h2>
 					<button
 						onClick={() => setIsOpen(!isOpen)}
-						className="hover:bg-black p-2 hover:text-white rounded-lg transition duration-200"
+						className="hover:bg-black p-2 hover:text-[var(--light-color)] rounded-lg transition duration-200"
 					>
 						<X size={24} />
 					</button>
 				</div>
 
 				{/* Sidebar content */}
-				<div className={`p-6 flex flex-col space-y-2 `}>
+				<div
+					className={`p-6 flex flex-col space-y-2 `}
+					onClick={() => setIsOpen(false)}
+				>
 					{SideBarItem("/dashboard", "Dashboard")}
+					{SideBarItem("/dashboard/product", "Add product")}
 					{SideBarItem("/dashboard/profile", "Profile")}
-					{SideBarItem("/dashboard/product-base", "Add product")}
 					{SideBarItem("/dashboard/settings", "Settings")}
 				</div>
 			</div>
@@ -83,7 +90,7 @@ export default function DashboardLayout({
 						<Menu size={24} />
 					</button>
 					<h1 className="ml-4 text-xl font-semibold">Dashboard</h1>
-					<div className="absolute right-3 h-[40px] p-2 rounded-md cursor-pointer bg-gray-200 text-black hover:bg-black hover:text-white transition-colors duration-300 ease-in-out">
+					<div className="absolute right-3 h-[40px] p-2 rounded-md cursor-pointer bg-gray-200 text-black hover:bg-black hover:text-[var(--light-color)] transition-colors duration-300 ease-in-out">
 						<CommonConfirmation
 							title="Logout"
 							desc="Are you sure you want to log out"

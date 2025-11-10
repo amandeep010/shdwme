@@ -21,11 +21,11 @@ async function main() {
     }
     
     await prisma.users.upsert({
-        where: { email: 'shwdme-admin@yopmail.com' },
+        where: { email: '2egos-admin@yopmail.com' },
         update: {},
         create: {
-          email: 'shwdme-admin@yopmail.com',
-          fName: 'Shwdme',
+          email: '2egos-admin@yopmail.com',
+          fName: 'Admin',
           password: await bcrypt.hash("Password@123", 10),
           roleId: 1
         }

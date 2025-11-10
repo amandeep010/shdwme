@@ -147,7 +147,7 @@ export function RegisterForm({
 									// 		: Object.values(passwordChecks).filter(Boolean).length === 2
 									// 			? "bg-orange-400 w-1/2"
 									// 			: Object.values(passwordChecks).filter(Boolean).length === 1
-									// 				? "bg-red-500 w-1/4"
+									// 				? "bg-[var(--dark-color)]-500 w-1/4"
 									// 				: "bg-gray-200 w-0"
 									// }`}
 									// 	></div>

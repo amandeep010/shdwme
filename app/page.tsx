@@ -3,7 +3,7 @@ import Image from "next/image"
 export default function Home() {
 	return (
 		<div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-			<div className="bg-red-200">{/* aman */}</div>
+			<div className="bg-[var(--dark-color)]-200">{/* aman */}</div>
 		</div>
 	)
 }

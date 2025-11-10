@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "CATEGORY" AS ENUM ('HOODIE', 'SWEAT_SHIRTS', 'OVERSIZED_TSHIRTS');
+CREATE TYPE "CATEGORY" AS ENUM ('OVERSIZED_HOODIE', 'SWEAT_SHIRTS', 'OVERSIZED_TSHIRTS');
 
 -- CreateEnum
 CREATE TYPE "SIZE" AS ENUM ('S', 'M', 'L', 'XL');
@@ -63,6 +63,7 @@ CREATE TABLE "Products" (
     "image" TEXT,
     "price" TEXT,
     "categories" "CATEGORY" NOT NULL,
+    "video" TEXT,
     "size" "SIZE" NOT NULL,
     "quantity" INTEGER NOT NULL,
     "detail" TEXT,
@@ -171,15 +172,14 @@ CREATE TABLE "UserCart" (
 );
 
 -- CreateTable
-CREATE TABLE "UserSession" (
-    "userSessionId" SERIAL NOT NULL,
+CREATE TABLE "auth" (
+    "authId" SERIAL NOT NULL,
     "userId" INTEGER NOT NULL,
-    "token" TEXT NOT NULL,
+    "accessToken" TEXT NOT NULL,
+    "refreshToken" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3),
-    "deletedAt" TIMESTAMP(3),
 
-    CONSTRAINT "UserSession_pkey" PRIMARY KEY ("userSessionId")
+    CONSTRAINT "auth_pkey" PRIMARY KEY ("authId")
 );
 
 -- CreateIndex
@@ -214,6 +214,3 @@ ALTER TABLE "UserCart" ADD CONSTRAINT "UserCart_userId_fkey" FOREIGN KEY ("userI
 
 -- AddForeignKey
 ALTER TABLE "UserCart" ADD CONSTRAINT "UserCart_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Products"("productId") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "UserSession" ADD CONSTRAINT "UserSession_userId_fkey" FOREIGN KEY ("userId") REFERENCES "Users"("userId") ON DELETE RESTRICT ON UPDATE CASCADE;
