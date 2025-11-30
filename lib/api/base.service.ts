@@ -8,12 +8,14 @@ export async function baseService(
 		const token = localStorage.getItem("token") || ""
 		const res = await fetch(url, {
 			method: method,
-			headers: data.file ? {
-				"Content-Type": "application/json",
-				"Authorization": `Bearer ${token}`
-			} : {
-                "Authorization": `Bearer ${token}`
-            },
+			headers: data.file
+				? {
+						"Content-Type": "application/json",
+						"Authorization": `Bearer ${token}`
+					}
+				: {
+						Authorization: `Bearer ${token}`
+					},
 			body: data
 		})
 

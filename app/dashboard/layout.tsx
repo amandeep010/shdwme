@@ -7,7 +7,7 @@ import {Power} from "lucide-react"
 import {useRouter} from "next/navigation"
 import {emptyDataFromLocalstorage} from "@/helper/helper"
 import {toast} from "sonner"
-import dynamic from "next/dynamic";
+import dynamic from "next/dynamic"
 
 const SideBarItem = (path: string, element: string) => {
 	return (
@@ -20,9 +20,12 @@ const SideBarItem = (path: string, element: string) => {
 	)
 }
 
-const CommonConfirmation = dynamic(() => import("@/components/common-confirmation"), {
-  ssr: false,
-});
+const CommonConfirmation = dynamic(
+	() => import("@/components/common-confirmation"),
+	{
+		ssr: false
+	}
+)
 
 export default function DashboardLayout({
 	children

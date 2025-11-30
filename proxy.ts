@@ -9,11 +9,17 @@ export async function proxy(req: NextRequest) {
 
 	console.log("token", token)
 
-	console.log(`req.headers.get("content-type")`, req.headers.get("content-type"))
+	console.log(
+		`req.headers.get("content-type")`,
+		req.headers.get("content-type")
+	)
 
 	console.log("req.nextUrl.pathname", req.nextUrl.pathname)
 
-	console.log(`include form data?`, req.headers.get("content-type")?.includes("multipart/form-data"))
+	console.log(
+		`include form data?`,
+		req.headers.get("content-type")?.includes("multipart/form-data")
+	)
 
 	const publicPaths = [
 		"/api/auth/login",
@@ -21,7 +27,10 @@ export async function proxy(req: NextRequest) {
 		"/api/auth/forgot-password"
 	]
 
-	if (publicPaths.some((path) => req.nextUrl.pathname.startsWith(path)) || req.headers.get("content-type")?.includes("multipart/form-data")) {
+	if (
+		publicPaths.some((path) => req.nextUrl.pathname.startsWith(path)) ||
+		req.headers.get("content-type")?.includes("multipart/form-data")
+	) {
 		return NextResponse.next()
 	}
 

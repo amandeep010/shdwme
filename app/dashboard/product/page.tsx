@@ -1,11 +1,11 @@
 "use client"
 import CreateProduct from "@/components/create-product"
 import {DataTable} from "@/components/listProduct"
-import { endPoints } from "@/lib/api/endUrl"
+import {endPoints} from "@/lib/api/endUrl"
 import useAuthedFetcher from "@/lib/fetcher"
 
 function ProductPage() {
-	const { data, mutate } = useAuthedFetcher(endPoints.listProduct)
+	const {data, mutate} = useAuthedFetcher(endPoints.listProduct)
 	const payload = data?.products.map((product: any) => ({
 		name: product.title,
 		description: product.description,
@@ -14,8 +14,8 @@ function ProductPage() {
 		size: product.size,
 		detail: product.detail,
 		quantity: product.quantity
-	})) 
-	
+	}))
+
 	return (
 		<div>
 			<div className="relative mb-10">
@@ -23,15 +23,10 @@ function ProductPage() {
 					Product Table
 				</h1>
 				<div className="text-end p-2 absolute top-0 right-0">
-					<CreateProduct 
-						mutate={mutate}
-					/>
+					<CreateProduct mutate={mutate} />
 				</div>
 			</div>
-			<DataTable 
-				modifiedData={payload}
-				mutate={mutate}
-			/>
+			<DataTable modifiedData={payload} mutate={mutate} />
 		</div>
 	)
 }

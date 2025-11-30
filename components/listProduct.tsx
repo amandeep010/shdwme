@@ -76,12 +76,16 @@ export const columns: ColumnDef<Payment>[] = [
 				</Button>
 			)
 		},
-		cell: ({row}) => <div className="lowercase">{row.getValue("description")}</div>
+		cell: ({row}) => (
+			<div className="lowercase">{row.getValue("description")}</div>
+		)
 	},
 	{
 		accessorKey: "category",
 		header: "Category",
-		cell: ({row}) => <div className="capitalize">{row.getValue("category")}</div>
+		cell: ({row}) => (
+			<div className="capitalize">{row.getValue("category")}</div>
+		)
 	},
 	{
 		accessorKey: "size",
@@ -91,7 +95,9 @@ export const columns: ColumnDef<Payment>[] = [
 	{
 		accessorKey: "quantity",
 		header: "Quantity",
-		cell: ({row}) => <div className="capitalize">{row.getValue("quantity")}</div>
+		cell: ({row}) => (
+			<div className="capitalize">{row.getValue("quantity")}</div>
+		)
 	},
 	{
 		accessorKey: "price",
